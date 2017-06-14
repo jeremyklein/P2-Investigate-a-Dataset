@@ -94,19 +94,19 @@ titanic['Title'].value_counts()
     Miss            146
     Mrs             108
     Master           36
-    Dr                6
     Rev               6
+    Dr                6
     Major             2
     Mlle              2
     Col               2
-    Mme               1
-    Capt              1
-    Jonkheer          1
-    Lady              1
-    the Countess      1
-    Sir               1
-    Ms                1
     Don               1
+    the Countess      1
+    Lady              1
+    Jonkheer          1
+    Sir               1
+    Capt              1
+    Ms                1
+    Mme               1
     Name: Title, dtype: int64
 
 
@@ -175,7 +175,7 @@ miss_age_histogram.set(xlabel = "Age",ylabel="Count of Age" )
 
 
 
-    [<matplotlib.text.Text at 0x117870940>, <matplotlib.text.Text at 0x11785d2b0>]
+    [<matplotlib.text.Text at 0x116d7cdd8>, <matplotlib.text.Text at 0x116d33c88>]
 
 
 
@@ -215,7 +215,7 @@ misses_age_histogram.set(xlabel = "Age",ylabel="Count of Age" )
 
 
 
-    [<matplotlib.text.Text at 0x1178acfd0>, <matplotlib.text.Text at 0x117883630>]
+    [<matplotlib.text.Text at 0x117679f98>, <matplotlib.text.Text at 0x117454518>]
 
 
 
@@ -254,6 +254,8 @@ bins = np.linspace(0, 70, 12)
 pyplot.hist(Miss['Age'], bins, alpha=.5, label='Miss')
 pyplot.hist(Misses['Age'], bins, alpha=.5, label='Misses')
 pyplot.legend(loc='upper right')
+pyplot.xlabel('Occurrence')
+pyplot.ylabel('Age')
 pyplot.show()
 ```
 
@@ -464,7 +466,7 @@ mister_age_histogram.set(xlabel = "Age",ylabel="Count of Age" )
 
 
 
-    [<matplotlib.text.Text at 0x1185d1780>, <matplotlib.text.Text at 0x118509e10>]
+    [<matplotlib.text.Text at 0x117aaa978>, <matplotlib.text.Text at 0x117a712e8>]
 
 
 
@@ -482,7 +484,7 @@ master_age_histogram.set(xlabel = "Age",ylabel="Count of Age" )
 
 
 
-    [<matplotlib.text.Text at 0x1185d1e10>, <matplotlib.text.Text at 0x1185e96d8>]
+    [<matplotlib.text.Text at 0x117e21c50>, <matplotlib.text.Text at 0x117aa78d0>]
 
 
 
@@ -496,6 +498,8 @@ bins = np.linspace(0, 70, 12)
 
 pyplot.hist(Mister['Age'], bins, alpha=.5, label='Mister')
 pyplot.hist(Master['Age'], bins, alpha=.5, label='Master')
+pyplot.xlabel('Occurrence')
+pyplot.ylabel('Age')
 pyplot.legend(loc='upper right')
 pyplot.show()
 ```
@@ -550,34 +554,41 @@ pd.read_sql("""
 
 
 
-    index          714
-    PassengerId    714
-    Survived       714
-    Pclass         714
-    Name           714
-    Sex            714
-    Age            714
-    SibSp          714
-    Parch          714
-    Ticket         714
-    Fare           714
-    Cabin          185
-    Embarked       712
-    Title          714
-    dtype: int64
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NamePartOne</th>
+      <th>NamePartTwo</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Name</th>
+      <th>NamePartOne</th>
+      <th>NamePartTwo</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div>
 
 
 
 
 ```python
 #titanic['SibSp'].value_counts().plot(kind ="bar", title ="Sibling/Spouse Distribution")
-titanic[['SibSp','Survived']].groupby("SibSp")['Survived'].agg(np.mean).plot(kind ="bar")
+plot = titanic[['SibSp','Survived']].groupby("SibSp")['Survived'].agg(np.mean).plot(kind ="bar")
+plot.set_ylabel('Survival %')
 ```
 
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x118666588>
+    <matplotlib.text.Text at 0x118230a20>
 
 
 
@@ -591,13 +602,15 @@ Now I will do some formal analysis of the features in the dataset.
 
 
 ```python
-titanic['Parch'].value_counts().plot(kind ="bar", title ="Parch Distribution")
+plot = titanic['Parch'].value_counts().plot(kind ="bar", title ="Parch Distribution")
+plot.set_xlabel('Parent/Child')
+plot.set_ylabel('Count')
 ```
 
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1182140f0>
+    <matplotlib.text.Text at 0x118212198>
 
 
 
@@ -627,12 +640,14 @@ genderDF = pd.read_sql("""
 
 ax = genderDF.plot(kind="bar", stacked= True)
 ax.set_xticklabels(genderDF.Sex)
+ax.set_xlabel('Gender')
+ax.set_ylabel('Count')
 ```
 
 
 
 
-    [<matplotlib.text.Text at 0x1187ba278>, <matplotlib.text.Text at 0x1187c5588>]
+    <matplotlib.text.Text at 0x117e0afd0>
 
 
 
@@ -688,14 +703,14 @@ PclassDF = pd.read_sql("""
 
 ax = PclassDF[['Survivors', 'Total (Stacked)']].plot(kind="bar", stacked= True)
 ax.set_xticklabels(PclassDF.Pclass)
+ax.set_xlabel('PClass')
+ax.set_ylabel('Count')
 ```
 
 
 
 
-    [<matplotlib.text.Text at 0x114ef4470>,
-     <matplotlib.text.Text at 0x118baf128>,
-     <matplotlib.text.Text at 0x118bf3400>]
+    <matplotlib.text.Text at 0x1182172b0>
 
 
 
@@ -766,7 +781,6 @@ print(lower_class.describe())
 
 ```python
 pivot = pd.pivot_table(data = titanic[['Survived', 'Pclass']], index = 'Survived', columns = ['Pclass'], aggfunc = len)
-pivot
 print(pivot,"\n")
 
 
@@ -812,7 +826,7 @@ ax = AgeDF.plot(kind="scatter", x="Age", y="Survived", yticks=[0,1])
 ![png](output_43_0.png)
 
 It appears that the age of the surviving passengers are skewed towards the younger half. I will test to see if there is a statistical difference.
-### I will test if there is a significant differents between the survival of children vs adults. Formally my hypthosis will be as follows
+### I will test if there is a significant differents between the survival of children vs adults.  I do not want to compare the mean age, but rather compare the ages in groups. Therefore, I will stratify ages in ten year increments. Formally my hypthosis will be as follows
 
 H<sub>0</sub>: Age and survival are independent.
 
@@ -820,11 +834,10 @@ H<sub>1</sub>: Age and survival are not independent.
 
 
 ```python
-#titanic['Rounded_Age']=titanic['Age'].apply(lambda x : round(x,-1))
-#print(titanic[['Survived','Age']].groupby('Age')['Survived'].count())
+titanic['Rounded_Age']=titanic['Age'].apply(lambda x : round(x,-1))
+print(titanic[['Survived','Rounded_Age','Age']].groupby('Rounded_Age')['Survived'].count())
 
-pivot = pd.pivot_table(data = titanic[['Survived', 'Age']], index = 'Survived', columns = ['Age'], aggfunc = len, fill_value=0)
-
+pivot = pd.pivot_table(data = titanic[['Survived', 'Rounded_Age']], index = 'Survived', columns = ['Rounded_Age'], aggfunc = len, fill_value=0)
 print(pivot,"\n")
 
 
@@ -836,27 +849,26 @@ print("Pvalue = " + str(p_value))
 print("\n")
 ```
 
-    Age       0.42   0.67   0.75   0.83   0.92   1.00   2.00   3.00   4.00   \
-    Survived                                                                  
-    0             0      0      0      0      0      2      7      1      3   
-    1             1      1      2      2      1      5      3      5      7   
-    
-    Age       5.00   ...    62.00  63.00  64.00  65.00  66.00  70.00  70.50  \
-    Survived         ...                                                      
-    0             0  ...        2      0      2      3      1      2      1   
-    1             4  ...        2      2      0      0      0      0      0   
-    
-    Age       71.00  74.00  80.00  
-    Survived                       
-    0             2      1      0  
-    1             0      0      1  
-    
-    [2 rows x 88 columns] 
+    Rounded_Age
+    0.0      44
+    10.0     34
+    20.0    223
+    30.0    178
+    40.0    132
+    50.0     61
+    60.0     34
+    70.0      7
+    80.0      1
+    Name: Survived, dtype: int64
+    Rounded_Age  0.0   10.0  20.0  30.0  40.0  50.0  60.0  70.0  80.0
+    Survived                                                         
+    0              13    20   144   106    76    36    22     7     0
+    1              31    14    79    72    56    25    12     0     1 
     
     Results of Chi-Squared test on Age to Survival.
     Does Age have a significant effect on Survival?
-    Chi-Squared Score = 104.156049889
-    Pvalue = 0.101411110189
+    Chi-Squared Score = 25.5702920151
+    Pvalue = 0.0012436364166
     
     
 
@@ -867,9 +879,6 @@ At the 99% confidence level, I must reject H<sub>0</sub> and Accept H<sub>a</sub
 
 In conclusion, I have found that age, gender, and class all seemed to have a statistically significant relationship with the survival rate of passengers on the titanic.
 
+It is important to note that the dataset had values for age missing. Records without age were removed from the dataset.
+
 Further I have explored some of the intricacies of titles in 1912 and have a greater sense of the underlying data.
-
-
-```python
-
-```

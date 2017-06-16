@@ -875,10 +875,13 @@ print("\n")
 
 At the 99% confidence level, I must reject H<sub>0</sub> and Accept H<sub>a</sub> that survival and age are not independent.
 
-# Conclusion.
+# Conclusion:
 
-In conclusion, I have found that age, gender, and class all seemed to have a statistically significant relationship with the survival rate of passengers on the titanic.
+In conclusion, I have found that age, gender, and class all seemed to have a statistically significant relationship with the survival rate of passengers on the titanic. Further I have explored some of the intricacies of titles in 1912 and have a greater sense of the underlying data.
 
-It is important to note that the dataset had values for age missing. Records without age were removed from the dataset.
+## Limitations of the report
 
-Further I have explored some of the intricacies of titles in 1912 and have a greater sense of the underlying data.
+The dataset had values for age missing. Records without age were removed from the dataset. Removing this data from the data set my bias percieved relationship between age and survival.  
+
+Further, the dataset provided for this analysis was only a sample of the total population aboard the Titanic, and in some places data was missing. Because the data was not anonymized, it would be possible to further research and enrich the dataset. Due to the fact that I am doing this project on my own time, it was important for me to limit the scope in order to makes sure that I will complete the project. I look forward to investigate this data further.  
+
